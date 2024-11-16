@@ -22,27 +22,24 @@
                 arr[i] = random.Next(lowerMaxRandomBound,upperMaxRandomBound);
             }
 
-            int even_amount = 0,odd_amount=0,unique;
-
             Console.WriteLine("The array is: ");
             foreach (var item in arr)
             {
                 Console.Write(item + " ");
             }
-
-            for (int i =0; i < size; i++)
+            Console.WriteLine("\nEnter a number:");
+            int number = Convert.ToInt32(Console.ReadLine());
+            int count = 0;
+            for(int i = 0; i < size; i++)
             {
-                if (arr[i] % 2 == 0)
+                if (arr[i] < number)
                 {
-                    even_amount++;
-                }
-                if (arr[i] % 2 != 0)
-                {
-                    odd_amount++;
+                    count++;
                 }
             }
 
-            Console.WriteLine($"\nAmount of even: {even_amount}\nAmount of odd: {odd_amount}\nAmount of unique: {arr.Distinct().Count()}");
+            Console.WriteLine($"Amount of numbers in array smaller than {number} : {count}");
+
         }
     }
 }
