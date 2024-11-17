@@ -6,49 +6,55 @@ namespace Array_strings
     {
         static void Main(string[] args)
         {
-            int size = 10;
-            var first_arr = new int[size];
-            var second_arr = new int[size];
-            var copy_arr = new int[size*2];
             var random = new Random();
             Console.WriteLine("Enter the lower bound of the random number: ");
             var lowerMaxRandomBound = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter the upper bound of the random number: ");
             var upperMaxRandomBound = Convert.ToInt32(Console.ReadLine());
-
             if (lowerMaxRandomBound > upperMaxRandomBound)
             {
                 (lowerMaxRandomBound, upperMaxRandomBound) = (upperMaxRandomBound, lowerMaxRandomBound);
             }
-
+            Console.WriteLine("Enter the size of the array: ");
+            int size = Convert.ToInt32(Console.ReadLine());
+            int[,] arr = new int[size, size];
             for (int i = 0; i < size; i++)
             {
-                first_arr[i] = random.Next(lowerMaxRandomBound, upperMaxRandomBound);
-                second_arr[i] = random.Next(lowerMaxRandomBound, upperMaxRandomBound);
+                for (int j = 0; j < size; j++)
+                {
+                    arr[i, j] = random.Next(lowerMaxRandomBound, upperMaxRandomBound);
+                }
             }
 
-            Console.WriteLine("The first array is: ");
-            foreach (var item in first_arr)
+            Console.WriteLine("The array is: ");
+            for (int i = 0; i < size; i++)
             {
-                Console.Write(item + " ");
+                for (int j = 0; j < size; j++)
+                {
+                    Console.Write(arr[i, j] + " ");
+                }
+                Console.WriteLine();
             }
-
-            Console.WriteLine("\nThe second array is: ");
-            foreach (var item in second_arr)
+            Console.WriteLine();
+        
+            float max = arr[0, 0];
+            float min = arr[0, 0];
+            for (int i = 0; i < size; i++)
             {
-                Console.Write(item + " ");
+                for (int j = 0; j < size; j++)
+                {
+                    if (arr[i, j] > max)
+                    {
+                        max = arr[i, j];
+                    }
+                    if (arr[i, j] < min)
+                    {
+                        min = arr[i, j];
+                    }
+                }
             }
-
-            first_arr.CopyTo(copy_arr, 0);
-            second_arr.CopyTo(copy_arr, size);
-
-            var result_arr = from num in copy_arr.Distinct() select num;
-
-            Console.WriteLine("\nThe Result array is: ");
-            foreach (var item in result_arr)
-            {
-                Console.Write(item + " ");
-            }
+            Console.WriteLine($"Max = {max}");
+            Console.WriteLine($"Min = {min}");
         }
     }
 }
