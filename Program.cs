@@ -10,14 +10,21 @@ namespace Array_strings
             Console.Write("Enter a sentence:");
             string sentence = Console.ReadLine();
 
+            StringBuilder sb = new StringBuilder();
+
             string[] words = sentence.Split(' ');
             int sum = 0;
-
-            foreach (var word in words)
+            string new_word = "";
+            foreach(var word in words)
             {
-                sum++;
+                for(int i = word.Length - 1; i >= 0; i--)
+                {
+                    new_word = new_word + word[i];
+                }
+                sb.Append(new_word + " ");
+                new_word = "";
             }
-            Console.WriteLine($"Amount of words in this sentence: {sum}");
-        }
+            Console.WriteLine($"Amount of words in this sentence: {sb}");
+            }
     }
 }
