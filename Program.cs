@@ -9,13 +9,19 @@ namespace Array_strings
         {
             Console.Write("Enter a sentence:");
             string sentence = Console.ReadLine();
+            Console.Write("Enter a word to find:");
+            string substring = Console.ReadLine();
 
             string[] words = sentence.Split(' ');
+
             int sum = 0;
 
             foreach (var word in words)
             {
-                sum++;
+                if(word == substring)
+                {
+                    sum++;
+                }
             }
             Console.WriteLine($"Amount of words in this sentence: {sum}");
         }
