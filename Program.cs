@@ -6,32 +6,49 @@ namespace Array_strings
     {
         static void Main(string[] args)
         {
-            int[] arr = {7,6,5,8,4,7,6,5,8,7,6,5};
+            int size = 10;
+            var first_arr = new int[size];
+            var second_arr = new int[size];
+            var copy_arr = new int[size*2];
+            var random = new Random();
+            Console.WriteLine("Enter the lower bound of the random number: ");
+            var lowerMaxRandomBound = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the upper bound of the random number: ");
+            var upperMaxRandomBound = Convert.ToInt32(Console.ReadLine());
 
-            string str = "";
-            foreach(var item in arr)
+            if (lowerMaxRandomBound > upperMaxRandomBound)
             {
-                str += item + " ";
+                (lowerMaxRandomBound, upperMaxRandomBound) = (upperMaxRandomBound, lowerMaxRandomBound);
             }
 
-            Console.WriteLine("The array is: ");
-            Console.WriteLine(str);
-
-            Console.WriteLine("\nEnter a number:");
-
-            string number = Console.ReadLine();
-            int count = 0;
-            int i = 0;
-            
-            while( (i = str.IndexOf(number,i, StringComparison.Ordinal)) != -1)
+            for (int i = 0; i < size; i++)
             {
-                count++;
-                i += number.Length;
-
+                first_arr[i] = random.Next(lowerMaxRandomBound, upperMaxRandomBound);
+                second_arr[i] = random.Next(lowerMaxRandomBound, upperMaxRandomBound);
             }
-            
-            Console.WriteLine($"Amount of substrings : {count}");
 
+            Console.WriteLine("The first array is: ");
+            foreach (var item in first_arr)
+            {
+                Console.Write(item + " ");
+            }
+
+            Console.WriteLine("\nThe second array is: ");
+            foreach (var item in second_arr)
+            {
+                Console.Write(item + " ");
+            }
+
+            first_arr.CopyTo(copy_arr, 0);
+            second_arr.CopyTo(copy_arr, size);
+
+            var result_arr = from num in copy_arr.Distinct() select num;
+
+            Console.WriteLine("\nThe Result array is: ");
+            foreach (var item in result_arr)
+            {
+                Console.Write(item + " ");
+            }
         }
     }
 }
