@@ -145,9 +145,9 @@ class Program
 
         Console.WriteLine($"\nMaximum element: {max}");
         Console.WriteLine($"Minimum element: {min}");
-        Console.WriteLine($"Sum of all elements: {sum}");
-        Console.WriteLine($"Product of all elements: {multiply}");
-        Console.WriteLine($"Sum of even elements in array A: {sumEvenA}");
-        Console.WriteLine($"Sum of odd columns in array B: {sumOddColumnsB}");
+        Console.WriteLine($"Sum: {sum}");
+        Console.WriteLine($"Multiply: {multiply}");
+        Console.WriteLine($"Sum of even elements: {sumEvenA}");
+        Console.WriteLine($"Sum of odd columns: {sumOddColumnsB}");
     }
 }
