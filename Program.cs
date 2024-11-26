@@ -1,153 +1,130 @@
 ﻿﻿using System;
+using System.Collections.Generic;
 
 class Program
 {
 
 
-    static void printMatrix(int[] A)
+    static void printMatrix(int[,] matrix)
     {
-        Console.WriteLine("\nArray A:");
-        foreach (int num in A)
+
+        for (int i = 0; i < matrix.GetLength(0); i++) // Rows
         {
-            Console.Write(num + " ");
-        }
-        Console.WriteLine();
-    }
-    static int FindMax(int[] A, int[,] B)
-    {
-        int max = A[0];
-        foreach (int num in A)
-        {
-            if (num > max) max = num;
-        }
-        for (int i = 0; i < B.GetLength(0); i++)
-        {
-            for (int j = 0; j < B.GetLength(1); j++)
+            for (int j = 0; j < matrix.GetLength(1); j++) // Columns
             {
-                if (B[i, j] > max) max = B[i, j];
+                Console.Write(matrix[i, j] + " ");
+            }
+            Console.WriteLine();
+        }
+    }
+    static void fillMatrix(int[,] matrix)
+    {
+        Random random = new Random();
+        for (int i = 0; i < matrix.GetLength(0); i++) // Rows
+        {
+            for (int j = 0; j < matrix.GetLength(1); j++) // Columns
+            {
+                matrix[i, j] = random.Next(-100, 101);
             }
         }
-        return max;
     }
-
-    static int FindMin(int[] A, int[,] B)
+    static int[] findMaxPos(int[,] matrix)
     {
-        int min = A[0];
-        foreach (int num in A)
+        int max = matrix[0, 0];
+        int[] list = new int[2];
+        for (int i = 0; i < matrix.GetLength(0); i++) // Rows
         {
-            if (num < min) min = num;
-        }
-        for (int i = 0; i < B.GetLength(0); i++)
-        {
-            for (int j = 0; j < B.GetLength(1); j++)
+            for (int j = 0; j < matrix.GetLength(1); j++) // Columns
             {
-                if (B[i, j] < min) min = B[i, j];
+                if (matrix[i,j] > max)
+                {
+                    max = matrix[i,j];
+                    list = [i, j];
+                }
             }
         }
-        return min;
+        return list;
     }
 
-    static int CalculateSum(int[] A, int[,] B)
+    static int[] findMinPos(int[,] matrix)
+    {
+        int min = matrix[0, 0];
+        int[] list = new int[2];
+        for (int i = 0; i < matrix.GetLength(0); i++) // Rows
+        {
+            for (int j = 0; j < matrix.GetLength(1); j++) // Columns
+            {
+                if (matrix[i, j] < min)
+                {
+                    min = matrix[i,j];
+                    list = [i, j];
+                }
+            }
+        }
+        return list;
+    }
+
+    static int findSum(int[,] matrix, int[] max_pos, int[] min_pos)
     {
         int sum = 0;
-        foreach (int num in A)
+        int[] start_pos = new int[2];
+        int[] end_pos = new int[2];
+        if (max_pos[0] < min_pos[0])
         {
-            sum += num;
+            start_pos = max_pos;
+            end_pos = min_pos;
         }
-        for (int i = 0; i < B.GetLength(0); i++)
+        else if (max_pos[0] == min_pos[0])
         {
-            for (int j = 0; j < B.GetLength(1); j++)
+            if (max_pos[1] < min_pos[1])
             {
-                sum += B[i, j];
+                start_pos = max_pos;
+                end_pos = min_pos;
+            }
+            else
+            {
+                start_pos = min_pos;
+                end_pos = max_pos;
+            }
+        }
+        else { start_pos = min_pos; end_pos = max_pos; }
+
+        sum += matrix[start_pos[0],start_pos[1]];
+        bool check = false;
+        for (int i = 0; i < matrix.GetLength(0); i++) // Rows
+        {
+            for (int j = 0; j < matrix.GetLength(1); j++) // Columns
+            {
+                if ((i == start_pos[0] && j == start_pos[1]) || (i == end_pos[0] && j == end_pos[1])) {
+                    if (check)
+                    {
+                        sum += matrix[i, j];
+                        check = false;
+                    }
+                    else { check = true; }
+                }
+                else if (check) { sum += matrix[i, j]; }
             }
         }
         return sum;
     }
 
-    static long Multiply(int[] A, int[,] B)
-    {
-        long multiply = 1;
-        foreach (int num in A)
-        {
-            multiply *= num;
-        }
-        for (int i = 0; i < B.GetLength(0); i++)
-        {
-            for (int j = 0; j < B.GetLength(1); j++)
-            {
-                multiply *= B[i, j];
-            }
-        }
-        return multiply;
-    }
-
-    static int CalculateSumEven(int[] A)
-    {
-        int sumEvenA = 0;
-        foreach (int num in A)
-        {
-            if (num % 2 == 0) sumEvenA += num;
-        }
-        return sumEvenA;
-    }
-
-    static int CalculateSumOddColumns(int[,] B)
-    {
-        int sumOddColumnsB = 0;
-        for (int j = 1; j < B.GetLength(1); j += 2)
-        {
-            for (int i = 0; i < B.GetLength(0); i++)
-            {
-                sumOddColumnsB += B[i, j];
-            }
-        }
-        return sumOddColumnsB;
-    }
-
     static void Main()
     {
-        int[] A = new int[5];
-        int[,] B = new int[3, 4];
+        int[,] matrix = new int[5, 5];
 
-        Random rand = new Random();
+        fillMatrix(matrix);
+        printMatrix(matrix);
+
+        int[] max_pos = findMaxPos(matrix); //max_pos[0] - y cord, max_pos[1] - x cord;
+        int[] min_pos = findMinPos(matrix); //min_pos[0] - y cord, min_pos[1] - x cord;
 
 
-        Console.WriteLine("Enter 5 integers for array A:");
-        for (int i = 0; i < A.Length; i++)
-        {
-            A[i] = Convert.ToInt32(Console.ReadLine());
-        }
-        for (int i = 0; i < B.GetLength(0); i++)
-        {
-            for (int j = 0; j < B.GetLength(1); j++)
-            {
-                B[i, j] = rand.Next(100);
-            }
-        }
 
-        printMatrix(A);
-        Console.WriteLine("\nArray B:");
-        for (int i = 0; i < B.GetLength(0); i++)
-        {
-            for (int j = 0; j < B.GetLength(1); j++)
-            {
-                Console.Write($"{B[i, j]} ");
-            }
-            Console.WriteLine();
-        }
+        Console.WriteLine($"Max pos: {max_pos[0]},{max_pos[1]}");
+        Console.WriteLine($"Min pos: {min_pos[0]},{min_pos[1]}");
 
-        int max = FindMax(A, B);
-        int min = FindMin(A, B);
-        int sum = CalculateSum(A, B);
-        long multiply = Multiply(A, B);
-        int sumEvenA = CalculateSumEven(A);
-        int sumOddColumnsB = CalculateSumOddColumns(B);
+        Console.WriteLine($"Result:\n{findSum(matrix, max_pos, min_pos)}");
 
-        Console.WriteLine($"\nMaximum element: {max}");
-        Console.WriteLine($"Minimum element: {min}");
-        Console.WriteLine($"Sum: {sum}");
-        Console.WriteLine($"Multiply: {multiply}");
-        Console.WriteLine($"Sum of even elements: {sumEvenA}");
-        Console.WriteLine($"Sum of odd columns: {sumOddColumnsB}");
     }
 }
