@@ -1,52 +1,54 @@
 ﻿﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 class Program
 {
 
-    static string Decypher(string input, int d)
+    
+
+    static int solution(string problem)
     {
-        char[] result = new char[input.Length];
-        for (int i = 0; i < input.Length; i++)
+        int[] arr = { };
+        char[] operations = { };
+        for(int i= 0; i < problem.Length; i++)
         {
-            if (Convert.ToInt32(input[i]) - d < 97)
+            if (problem[i] == '+' || problem[i] == '-')
             {
-                result[i] = Convert.ToChar(123 - (122 - (Convert.ToInt32(input[i]) +(25- d))));
+                operations = operations.Append<char>(problem[i]).ToArray();
             }
-            else
+            else if (Char.IsDigit(problem[i]) == true)
             {
-                result[i] = Convert.ToChar(Convert.ToInt32(input[i]) - d);
+                arr = arr.Append<int>(problem[i] - 48).ToArray();
+                
             }
         }
-        string res = new string(result);
-        return res;
-    }
-    static string Cypher(string input,int d)
-    {
-        char[] result = new char[input.Length];
-        for(int i =0;i < input.Length; i++)
+        int result = arr[0];
+        for (int i = 0; i < operations.Length; i++)
         {
-            if(Convert.ToInt32(input[i]) + d > 122)
+            switch (operations[i])
             {
-                result[i] = Convert.ToChar(96  + (Convert.ToInt32(input[i]) + d- 122));
-            }
-            else {
-                result[i] = Convert.ToChar(Convert.ToInt32(input[i]) + d);
+                case '+':
+                    result += arr[i + 1];
+                    break;
+                case '-':
+                    result -= arr[i + 1];
+                    break;
+
             }
         }
-        string res = new string(result);
-        return res;
+
+        return result;
+        
+
     }
 
     static void Main()
     {
-        Console.WriteLine("Enter a string:"); string str = Console.ReadLine().ToLower();
-        Console.WriteLine($"Your string: '{str}'");
-        Console.WriteLine("Enter a step:"); int step = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Enter an math problem:");
+        string problem = Console.ReadLine();
 
-        // a - 97 ;z - 122 Ifmmp!Xpsme
-
-        Console.WriteLine($"Cyphred string: {Cypher(str,step)}");
-        Console.WriteLine($"Decyphred string: {Decypher(str, step)}");
+        int output = solution(problem);
+        Console.WriteLine($"Result: {output}");
     }
 }
