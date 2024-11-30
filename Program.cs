@@ -1,54 +1,46 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text;
 
 class Program
 {
 
     
 
-    static int solution(string problem)
-    {
-        int[] arr = { };
-        char[] operations = { };
-        for(int i= 0; i < problem.Length; i++)
-        {
-            if (problem[i] == '+' || problem[i] == '-')
-            {
-                operations = operations.Append<char>(problem[i]).ToArray();
-            }
-            else if (Char.IsDigit(problem[i]) == true)
-            {
-                arr = arr.Append<int>(problem[i] - 48).ToArray();
-                
-            }
-        }
-        int result = arr[0];
-        for (int i = 0; i < operations.Length; i++)
-        {
-            switch (operations[i])
-            {
-                case '+':
-                    result += arr[i + 1];
-                    break;
-                case '-':
-                    result -= arr[i + 1];
-                    break;
-
-            }
-        }
-
-        return result;
-        
-
-    }
 
     static void Main()
     {
-        Console.WriteLine("Enter an math problem:");
-        string problem = Console.ReadLine();
+        Console.WriteLine("Enter a sentence:");
+        string sentence = Console.ReadLine();
+        StringBuilder result = new StringBuilder();
 
-        int output = solution(problem);
-        Console.WriteLine($"Result: {output}");
+        bool checker = true;
+
+        for (int i = 0; i < sentence.Length; i++)
+        {
+
+            if (checker == true && char.IsAsciiLetter(sentence[i]))
+            {
+                result.Append(char.ToUpper(sentence[i]));
+                checker = false;
+            }
+            else
+            {
+                result.Append(sentence[i]);
+            }
+
+            if (sentence[i] == '.' || sentence[i] == '?' || sentence[i] == '!')
+            {
+                checker = true;
+            }
+
+        }
+        
+
+
+
+        Console.WriteLine($"Result:\n{result.ToString()}");
+        
     }
 }
